@@ -1,0 +1,181 @@
+body {
+    margin: 0;
+    font-family: "Lateef", serif;
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* & START NAVBAR STYLE */
+
+
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 15%;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+    height: 10vh;
+    color: white;
+
+}
+
+.nav.scrolled {
+    background-color: rgb(0, 0, 0, 0.8);
+    color: white;
+}
+
+.nav_items {
+    display: flex;
+    justify-content: space-between;
+    align-self: center;
+}
+
+.items {
+    width: 20%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav_items li {
+    cursor: pointer;
+    list-style: none;
+}
+
+.logo {
+    width: 15%;
+}
+
+.logo img {
+    width: 100%;
+}
+
+.nav_items a {
+    text-decoration: none;
+    color: white;
+    padding: 0px 20px;
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+
+/* & END NAVBAR STYLE */
+
+/* & START SLIDER STYLE */
+
+.slider {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.slider img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    transition: opacity 1s;
+}
+
+.home_cap {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background-color: rgb(0, 0, 0, 0.4);
+    padding-top: 100px;
+}
+
+.home_cap .cap {
+    margin: 10%;
+    color: white;
+    font-size: 30px;
+    text-align: right;
+}
+
+.home_cap a {
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+}
+
+.home_cap .cap p {
+    margin: 10px;
+}
+
+.cap .btn {
+    padding: 12px 24px;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.cap .about_btn {
+    border: none;
+    background-color: rgb(180, 160, 119);
+}
+
+.cap .tickets_btn {
+    background-color: transparent;
+    border: 2px solid rgb(180, 160, 119);
+}
+
+.cap .about_btn:hover {
+    border: 2px solid rgb(180, 160, 119);
+    background-color: transparent;
+    transition: all 0.7s;
+}
+
+.cap .tickets_btn:hover {
+    background-color: rgb(180, 160, 119);
+    transition: all 0.7s;
+}
+
+/* & END SLIDER STYLE */
+
+/* & START FOOTER STYLE */
+
+footer {
+    font-size: 20px;
+    color: white;
+    padding: 3% 5%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+}
+
+.footer h5 {
+    font-size: 30px;
+    margin-bottom: 5px;
+    color: rgb(180, 160, 119);
+}
+
+.footer ul {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.footer li {
+margin: 20px;
+}
+.footer p {
+    text-align: center;
+}
+
+.footer a {
+    text-decoration: none;
+    color: rgb(180, 160, 119);
+}
+
+.footer .about_us{
+    margin-top: 15px;
+}
+/* & END FOOTER STYLE */

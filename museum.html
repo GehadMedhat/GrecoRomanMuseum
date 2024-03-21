@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lateef:wght@200;300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Greco-Roman Museum</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Lateef", serif;
+      background-image: url("https://i.pinimg.com/564x/17/97/45/179745a3ef2508595c382f04fee5451a.jpg");
+      /* Background image URL */
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      /* Fixed background */
+    }
+
+    * {
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 15%;
+      background-color: transparent;
+      transition: background-color 0.3s ease;
+      height: 10vh;
+      color: white;
+
+    }
+
+    .nav.scrolled {
+      background-color: rgb(0, 0, 0, 0.8);
+      color: white;
+    }
+
+    .nav_items {
+      display: flex;
+      justify-content: space-between;
+      align-self: center;
+    }
+
+    .items {
+      width: 20%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .nav_items li {
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .logo {
+      width: 15%;
+    }
+
+    .logo img {
+      width: 100%;
+    }
+
+    .nav_items a {
+      text-decoration: none;
+      color: white;
+      padding: 0px 20px;
+      margin-right: 10px;
+      font-size: 24px;
+    }
+
+    #map-container {
+      height: 100vh;
+      /* Adjust the height as needed */
+      width: 101%;
+      background-color: rgba(0, 0, 0, 0.5);
+      /* Black with 50% transparency */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 0;
+      /* Ensure it's behind other content */
+    }
+
+    #map {
+      height: 70%;
+      width: 90%;
+      margin-top: 25vh;
+      /* Adjust the margin top */
+      z-index: 0;
+      /* Ensure it's behind other content */
+    }
+
+    .title {
+      position: absolute;
+      top: 100px;
+      right: 20px;
+      font-size: 60px;
+      /* Adjust the font size as needed */
+      color: white;
+    }
+
+    /* Added styles for colored paragraphs */
+    .colored-paragraphs {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      height: 150vh;
+      /* Height of the colored paragraphs container */
+      color: white;
+      /* Text color */
+      font-size: 60px;
+      /* Adjust font size as needed */
+    }
+
+    .red-paragraph,
+    .blue-paragraph,
+    .green-paragraph {
+      display: flex;
+      justify-content: flex-end;
+      /* Align text to the right */
+      align-items: center;
+      /* Center vertically */
+      height: 100vh;
+      /* Height of each paragraph */
+      width: 101%;
+      padding-right: 20px;
+      /* Add padding to the right */
+    }
+
+    /* Style for the text in the middle */
+    .middle-text {
+      text-align: center;
+      flex-grow: 1;
+      /* Allow the text to grow and occupy the available space */
+      font-size: 35px;
+      /* Adjust font size as needed */
+    }
+
+    .left-image1 {
+      text-align: left;
+      flex-grow: 1;
+      /* Allow the text to grow and occupy the available space */
+      padding-left: 100px;
+      /* Add padding to the right */
+    }
+
+    .left-image2 {
+      text-align: left;
+      flex-grow: 1;
+      /* Allow the text to grow and occupy the available space */
+      padding-left: 250px;
+      /* Add padding to the right */
+    }
+
+    .red-paragraph span,
+    .blue-paragraph span,
+    .green-paragraph span {
+      margin-right: auto;
+      /* Push the span to the right */
+    }
+
+    .red-paragraph {
+      background-color: #d0c7c2;
+    }
+
+    .blue-paragraph {
+      background-color: #4b342c;
+    }
+
+    .green-paragraph {
+      background-color: #d0c7c2;
+    }
+
+    /* & START FOOTER STYLE */
+
+    footer {
+      font-size: 20px;
+      color: white;
+      padding: 3% 5%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .footer h5 {
+      font-size: 30px;
+      margin-bottom: 5px;
+      color: rgb(180, 160, 119);
+    }
+
+    .footer ul {
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    .footer li {
+      margin: 20px;
+    }
+
+    .footer p {
+      text-align: center;
+    }
+
+    .footer a {
+      text-decoration: none;
+      color: rgb(180, 160, 119);
+    }
+
+    .footer .about_us {
+      margin-top: 15px;
+    }
+
+    /* & END FOOTER STYLE */
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="nav">
+
+      <div class="items">
+        <ul class="nav_items">
+          <li><a href="./index.html">الرئيسية</a></li>
+          <li><a href="./AboutUS.html"> المتحف</a></li>
+          <li><a href="./museum.html">التذاكر</a></li>
+        </ul>
+      </div>
+
+      <div class="logo">
+        <img src="images/logo.jpg" alt="logo">
+      </div>
+
+    </div>
+
+  </nav>
+
+  <div id="map-container">
+    <div id="map"></div>
+    <!-- Map -->
+    <div class="title">المتحف اليوناني الروماني</div>
+    <!-- Title -->
+  </div>
+
+  <!-- Colored paragraphs -->
+  <div class="colored-paragraphs">
+    <div class="red-paragraph">
+      <div class="middle-text">
+        <p>من</p>
+        <p>٩:٠٠ صباحًا</p>
+        <p>إلي</p>
+        <p>٥:٠٠ مساءً</p>
+      </div>
+      <div class="left-image2">
+        <img src="images/clock.png" alt="Clock" />
+      </div>
+      <div>ساعات العمل</div>
+    </div>
+
+    <div class="blue-paragraph">
+      <div class="middle-text">
+        <p>: أجنبي</p>
+        <p>كبار: 300ج.م/ طلبة: 150ج.م</p>
+        <p>: مصري/ عربي</p>
+        <p>كبار: 40ج.م/ طلبة : 20ج.م</p>
+      </div>
+      <div class="left-image1">
+        <img src="images/tickets.png" alt="Tickets" />
+      </div>
+      <div>أسعار التذاكر</div>
+    </div>
+
+    <div class="green-paragraph">
+      <div class="middle-text">
+        <ul>
+          <li>لا يسمح بإحضار طعام ومشروبات من الخارج •</li>
+          <li>
+            يُسمح بالتصوير الشخصي غير المهني وغير التجاري باستخدام الكاميرات
+            المحمولة الصغيرة والهواتف المحمول •
+          </li>
+          <li>
+            يحظر استخدام معدات التصوير الاحترافية، والكاميرات ذات العدسات
+            القابلة للإزالة، وأضواء التصوير، والحوامل، والكاميرات الطائرة •
+          </li>
+          <li>جميع الحجوزات غير قابلة للتحويل وغير قابلة للاسترداد •</li>
+        </ul>
+      </div>
+      <div>الأرشادات</div>
+    </div>
+
+    <footer>
+      <div class="footer">
+        <p>جميع حقوق النشر محفوظة وزارة الآثار- مصر ٢٠١٩ </p>
+        <p> لتحميل مطوية المتحف اليوناني الروماني <a href="./بروشور-المتحف-اليوناني-عربي.pdf">اضغط هنا</a></p>
+        <p class="about_us">هذا الموقع تم بواسطة</p>
+        <ul>
+          <li>جهاد مدحت</li>
+          <li> رنا أحمد </li>
+          <li>عائشة إبراهيم</li>
+        </ul>
+
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    var map = L.map("map").setView(
+      [31.199183137917828, 29.906597101452036],
+      15
+    ); // Set center to Greco-Roman Museum with zoom level 15
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    var museumIcon = L.icon({
+      iconUrl: "https://leafletjs.com/examples/custom-icons/leaf-red.png",
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowUrl:
+        "https://leafletjs.com/examples/custom-icons/leaf-shadow.png",
+      shadowSize: [41, 41],
+    });
+
+    var marker = L.marker([31.199183137917828, 29.906597101452036]).addTo(
+      map
+    );
+    marker
+      .bindPopup("<b>Greco-Roman Museum</b><br>Alexandria, Egypt.")
+      .openPopup();
+
+
+    // & S  C  R  O  L  L      N  A  V  B  A  R
+
+    window.addEventListener('scroll', function () {
+      const navbar = document.querySelector('.nav');
+      if (window.scrollY > 50) { // Change 50 to the desired scroll threshold
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+  </script>
+</body>
+
+</html>
